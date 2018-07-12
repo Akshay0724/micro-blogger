@@ -1,0 +1,16 @@
+{% extends "blogs/layout.html" %}
+{% block title %}Blogs | MicroBlogger{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron mt-4">
+          <h1 class="display-4">Welcome to MicroBlogger!</h1>
+          <p class="lead">Rich Text blogging to your heart's desire, come and pen down your thoughts</p>
+          {% if not user.is_authenticated %}
+          <hr class="my-4">
+          <p>To post or comment on MicroBlogger, you need to Sign In/Register first!</p>
+          <a class="btn btn-primary btn-lg" href="#" role="button">Sign In/Register</a>
+          {% endif %}
+        </div>
+    </div>
+{% endblock %}
