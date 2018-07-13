@@ -12,5 +12,19 @@
           <a class="btn btn-primary btn-lg" href="#" role="button">Sign In/Register</a>
           {% endif %}
         </div>
+
+        <div class="row">
+            {% for blog in blogs %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ blog.title }}</h5>
+                            <p class="card-text">{{ blog.content|safe|truncatewords:"20"|linebreaks }}</p>
+                            <a href="#" class="card-link">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

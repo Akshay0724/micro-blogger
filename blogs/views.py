@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from . import models
 
 def index(request):
-	return render(request, 'blogs/index.html')
+	blogs = models.Blog.objects.all()
+	return render(request, 'blogs/index.html', {'blogs': blogs})
