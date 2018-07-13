@@ -1,0 +1,44 @@
+{% extends "blogs/layout.html" %}
+{% load bootstrap_tags %}
+{% block title %}Register | MicroBlogger{% endblock %}
+
+{% block content %}
+    {% if next %}
+        <div class="alert alert-warning">You need to register first!</div>
+    {% endif %}
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8 col-lg-6">
+                <h2 class="mb-4">Register</h2>
+                <form class="mb-2" action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+
+                    {{ form|as_bootstrap }}
+
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <input class="btn btn-primary" type="submit" value="Register">
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        .help-block, .error-msg {
+            padding:.75rem 1.25rem;
+            margin: .75rem 0;
+            border-radius:.25rem;
+        }
+
+        .help-block {
+            color:#856404;
+            background-color:#fff3cd;
+            border: 1px solid #ffeeba;
+        }
+
+        .error-msg {
+            color:#721c24;
+            background-color:#f8d7da;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+    </style>
+{% endblock %}
