@@ -20,7 +20,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ blog.title }}</h5>
                             <p class="card-text">{{ blog.content|safe|truncatewords:"20"|linebreaks }}</p>
-                            <a href="#" class="card-link">Read More</a>
+                            <a href="{% url 'post_detail' blog.id  %}" class="card-link">Read More</a>
                         </div>
                     </div>
                 </div>
