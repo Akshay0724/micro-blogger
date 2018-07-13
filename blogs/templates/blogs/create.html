@@ -1,0 +1,20 @@
+{% extends "blogs/layout.html" %}
+{% load bootstrap_tags %}
+{% block title %}Create Blog | MicroBlogger{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mt-4">Create Blog</h2>
+        <div class="row">
+            <div class="col">
+                <form action="{% url 'create_blog' %}" method="post">
+                    {% csrf_token %}
+
+                    {{ form|as_bootstrap }}
+
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
