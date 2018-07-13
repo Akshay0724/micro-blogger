@@ -18,5 +18,10 @@ class Comment(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
+    @property
+    def border_tag(self):
+        tags = ['border-primary', 'border-success', 'border-warning', 'border-danger']
+        return tags[hash(self.user.username) % len(tags)]
+
     def __str__(self):
         return self.content

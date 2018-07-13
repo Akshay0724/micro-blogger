@@ -1,4 +1,5 @@
 {% extends "blogs/layout.html" %}
+{% load humanize %}
 {% block title %}Blogs | MicroBlogger{% endblock %}
 
 {% block content %}
@@ -19,7 +20,10 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ blog.title }}</h5>
+                            <hr>
                             <p class="card-text">{{ blog.content|safe|truncatewords:"20"|linebreaks }}</p>
+                            <small class="float-right"><em class="text-muted">{{ blog.created_at|naturaltime }}</em></small>
+                            <blockquote>by {{ blog.user }}</blockquote>
                             <a href="{% url 'post_detail' blog.id  %}" class="card-link">Read More</a>
                         </div>
                     </div>
