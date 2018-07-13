@@ -1,0 +1,24 @@
+{% extends "blogs/layout.html" %}
+{% load bootstrap_tags %}
+{% block title %}Login | MicroBlogger{% endblock %}
+
+{% block content %}
+    {% if next %}
+        <div class="alert alert-warning">You need to login first!</div>
+    {% endif %}
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8 col-lg-6">
+                <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+
+                    {{ form|as_bootstrap }}
+
+
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <input class="btn btn-primary" type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

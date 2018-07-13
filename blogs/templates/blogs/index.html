@@ -9,7 +9,7 @@
           {% if not user.is_authenticated %}
           <hr class="my-4">
           <p>To post or comment on MicroBlogger, you need to Sign In/Register first!</p>
-          <a class="btn btn-primary btn-lg" href="#" role="button">Sign In/Register</a>
+          <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Sign In/Register</a>
           {% endif %}
         </div>
 
