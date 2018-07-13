@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -57,5 +59,51 @@ def create_blog(request):
 def render_markdown(request):
     md = request.POST.get('md', '')
     response = markdown.markdown(md)
-    print(response)
     return HttpResponse(response)
+
+
+@login_required
+def create_comment(request, blog_id):
+	if request.method == 'POST':
+		blog = models.Blog.objects.get(pk=blog_id)
+		if not blog:
+			return HttpResponse(json.dumps({
+				'success': False,
+				'message': "Blog {} not found".format(blog_id)
+			}))
+		user = request.user
+		content = request.POST.get('content', None)
+		if not content or content.strip() == '':
+			return HttpResponse(json.dumps({
+				'success': False,
+				'message': 'Content must not be empty'
+			}))
+		comment = models.Comment.objects.create(
+			content=content,
+			blog=blog,
+			user=user
+		)
+
+		comment_data = {
+			'content': comment.content,
+			'border_tag': comment.border_tag,
+			'is_op': comment.user.id == blog.user.id,
+			'created_at': comment.created_at.isoformat(),
+			'updated_at': comment.updated_at.isoformat(),
+			'user': {
+				'username': comment.user.username,
+				'first_name': comment.user.first_name,
+				'last_name': comment.user.last_name,
+				'full_name': comment.user.first_name + ' ' + comment.user.last_name
+			}
+		}
+
+		return HttpResponse(json.dumps({
+			'success': True,
+			'message': 'Comment created successfully',
+			'comment': comment_data
+		}))
+	return HttpResponse(json.dumps({
+		'success': False,
+		'message': 'Method not supported'
+	}))

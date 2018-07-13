@@ -21,6 +21,16 @@
                 </div>
                 <hr>
                 <h5 class="my-4">Comments</h5>
+                <div class="row mt-4">
+                    <div class="col-md-8 col-xl-6">
+                        <div class="form-group">
+                            <textarea class="form-control" name="text" id="comment" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button id="add" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
                 <div class="mb-4" id="comments">
                     {% for comment in blog.comment_set.all %}
                     <div class="card col-md-8 col-xl-6 mt-2 bg-light {{ comment.border_tag }}">
@@ -42,5 +52,82 @@
                 </div>
             </div>
         </div>
+        <template id="comment-template">
+            <div class="card col-md-8 col-xl-6 mt-2 bg-new {{ comment.border_tag }}">
+                <div class="card-body" >
+                    <div class="float-right text-muted small"><em>now</em></div>
+                    <h6 class="card-title text-muted">
+                        <b class="username"></b> 
+                        <span class="name text-muted"></span>
+                        <span class="badge badge-success" style="visibility: hidden;">OP</span>
+                    </h6>
+                    <hr>
+                    <div class="comment"></div>
+                </div>
+            </div>
+        </template>
     </div>
+    <style>
+        .bg-new {
+            background-color: #E8F5E9
+        }
+    </style>
+{% endblock %}
+{% block script %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        (function() {
+            const add = $('#add');
+            const comment = $('#comment');
+            const comments = $('#comments');
+            const commentTemplate = $($('#comment-template')[0].content).find('.card');
+
+            function appendComment(comment) {
+                const commentClone = commentTemplate.clone();
+
+                commentClone.addClass(comment.comment.border_tag);
+                commentClone.find('.username').text('@' + comment.comment.user.username)
+                commentClone.find('.comment').text(comment.comment.content);
+                commentClone.find('.badge').css('visibility', comment.comment.is_op ? 'visible' : 'hidden');
+                if (comment.comment.user.full_name !== '') {
+                    commentClone.find('.name').text('(' + comment.comment.user.full_name + ')');
+                }
+                comments.append(commentClone);
+                return commentClone;
+            }
+
+            function showProgress(show) {
+                function disable(element, disable) {
+                    element.attr('disabled', disable);
+                }
+
+                disable(add, show);
+                disable(comment, show);
+            }
+
+            function postComment(data) {
+                showProgress(true);
+                $.post('{% url "create_comment" blog.id %}', data, function(resp) {
+                    resp = JSON.parse(resp)
+                    if (resp.success) {
+                        appendComment(resp);
+                        toastr.success(resp.message);
+                        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+                    } else {
+                        toastr.error(resp.message);
+                    }
+                    showProgress(false);
+                });
+            }
+
+            add.on('click', function() {
+                const data = {
+                    content: comment.val()
+                }
+
+                postComment(data);
+            });
+        }());
+    </script>
 {% endblock %}
