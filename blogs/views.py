@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-import markdown
 
 from . import forms, models
 
@@ -51,17 +50,3 @@ def create_blog(request):
         form = forms.BlogForm()
 
     return render(request, 'blogs/create.html', {'form': form})
-
-
-def show_markdown(request):
-    if request.method == 'POST':
-        saved = request.POST['content']
-        extensions = ['pymdownx.extra', 'pymdownx.emoji', 'pymdownx.progressbar', 'pymdownx.magiclink', 'pymdownx.mark',
-                      'pymdownx.keys', 'pymdownx.smartsymbols', 'pymdownx.superfences', 'pymdownx.highlight',
-                      'pymdownx.tasklist', 'pymdownx.details']
-        content = markdown.markdown(saved, extensions)
-        return render(request, 'blogs/md.html', {
-            'content': content,
-            'saved': saved
-        })
-    return render(request, 'blogs/md.html')

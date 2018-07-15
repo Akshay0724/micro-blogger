@@ -21,7 +21,7 @@
                     <div class="card card-body d-flex flex-column">
                         <h5 class="card-title">{{ blog.title }}</h5>
                         <hr>
-                        <p class="card-text">{{ blog.content|truncatewords:"15"|markdown|safe }}</p>
+                        <p class="card-text">{{ blog.content|escape|truncatewords:"15"|markdown|safe }}</p>
                         <div class="mt-auto">
                             <small class="float-right"><em class="text-muted">{{ blog.created_at|naturaltime }}</em></small>
                             <blockquote>by {{ blog.user }}</blockquote>
@@ -32,4 +32,7 @@
             {% endfor %}
         </div>
     </div>
+    <pre>
+        <span>&lt;hello&gt;</span>
+    </pre>
 {% endblock %}

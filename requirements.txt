@@ -2,3 +2,5 @@ django-forms-bootstrap
 markdown
 pymdown-extensions
 Pygments
+bleach
+bleach-whitelist
