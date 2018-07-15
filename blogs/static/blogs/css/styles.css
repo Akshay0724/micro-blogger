@@ -16,6 +16,58 @@ small > blockquote {
     margin-bottom: 10px;
 }
 
+.blog blockquote {
+    color: #4a535d;
+    border-left: 0.4em solid #448aff;
+}
+
+.bg-purple {
+    background-color: #8b1cba;
+}
+
+.bg-gradient {
+    color: rgba(255, 255, 255, 0.9);
+    background: #e643cb;
+    background: -moz-linear-gradient(-45deg, #e643cb 0%, #8b1cba 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, #e643cb), color-stop(100%, #8b1cba));
+    background: -webkit-linear-gradient(-45deg, #e643cb 0%, #8b1cba 100%);
+    background: -o-linear-gradient(-45deg, #e643cb 0%, #8b1cba 100%);
+    background: -ms-linear-gradient(-45deg, #e643cb 0%, #8b1cba 100%);
+    background: linear-gradient(135deg, #e643cb 0%, #8b1cba 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e643cb', endColorstr='#8b1cba', GradientType=1 );
+}
+
+.navbar.bg-purple {
+    box-shadow: 0 0 5px 1px rgba(119, 119, 119, 0.75);
+    -moz-box-shadow: 0 0 5px 1px rgba(119, 119, 119, 0.75);
+    -webkit-box-shadow: 0 0 5px 1px rgba(119, 119, 119, 0.75);
+}
+
+.add-blog {
+    border-radius: 1rem;
+    border: 0.8rem dashed #CE93D8;
+    cursor: pointer;
+    color: #BA68C8;
+    text-decoration: none;
+}
+
+.add-blog:hover {
+    background-color: #F3E5F5;
+    stroke: 0.8rem solid #F3E5F5;
+    color: #BA68C8;
+    text-decoration: none;
+}
+
+.add-blog .add {
+    font-size: 10rem;
+}
+
+.add-blog .add-text {
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Montserrat', serif;
+}
+
 .task-list-control, .task-list-indicator:before, details>.admonition-title:before,details>summary:before,summary:after{
     font-family:Material Icons;
     font-style:normal;
