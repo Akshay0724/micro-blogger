@@ -1,9 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 
 from . import forms, models
+from .templatetags import markdown
 
 
 def index(request):
@@ -12,7 +14,7 @@ def index(request):
 
 
 def blog_detail(request, blog_id):
-    blog = models.Blog.objects.get(pk=blog_id)
+    blog = get_object_or_404(models.Blog, pk=blog_id)
     return render(request, 'blogs/blog_detail.html', {'blog': blog})
 
 
@@ -50,3 +52,10 @@ def create_blog(request):
         form = forms.BlogForm()
 
     return render(request, 'blogs/create.html', {'form': form})
+
+
+def render_markdown(request):
+    md = request.POST.get('md', '')
+    response = markdown.markdown(md)
+    print(response)
+    return HttpResponse(response)
