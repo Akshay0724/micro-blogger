@@ -654,3 +654,45 @@ summary:after{
     right:auto;
     left:1.2rem
 }
+
+.blog img {
+    max-width: 35%;
+}
+
+.blog table:not([class]){
+    box-shadow:0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12),0 3px 1px -2px rgba(0,0,0,.2);
+    display:inline-block;
+    max-width:100%;
+    border-radius:.2rem;
+    font-size: 0.9rem;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch
+}
+.blog table:not([class])+*{
+    margin-top:0.8em
+}
+.blog table:not([class]) td:not([align]),.blog table:not([class]) th:not([align]){
+    text-align:left
+}
+[dir=rtl] .blog table:not([class]) td:not([align]),[dir=rtl] .blog table:not([class]) th:not([align]){
+    text-align:right
+}
+.blog table:not([class]) th{
+    min-width:10rem;
+    padding:0.8rem 1rem;
+    background-color:rgba(0,0,0,.54);
+    color:#fff;
+    font-weight: normal;
+    vertical-align:top
+}
+.blog table:not([class]) td{
+    padding:0.8rem 1rem;
+    border-top:.1rem solid rgba(0,0,0,.07);
+    vertical-align:top
+}
+.blog table:not([class]) tr:first-child td{
+    border-top:0
+}
+.blog table:not([class]) a{
+    word-break:normal
+}
