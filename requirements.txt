@@ -1,1 +1,4 @@
 django-forms-bootstrap
+markdown
+pymdown-extensions
+Pygments
