@@ -1,0 +1,1 @@
+web: gunicorn microblogger.wsgi --log-file -
