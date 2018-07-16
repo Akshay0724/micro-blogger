@@ -58,7 +58,9 @@ def create_blog(request):
 
 def render_markdown(request):
     md = request.POST.get('md', '')
+    print(md)
     response = markdown.markdown(md)
+    print(response)
     return HttpResponse(response)
 
 
