@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 
 from . import forms, models
 from .templatetags import markdown
@@ -74,6 +75,16 @@ def edit_blog(request, blog_id):
         form = forms.BlogForm(instance=blog)
     
     return render(request, 'blogs/create.html', {'form': form, 'edit': True})
+
+
+@login_required
+def delete_blog(request, blog_id):
+    blog = get_object_or_404(models.Blog, pk=blog_id)
+    if blog.user.id != request.user.id:
+        return HttpResponse('Unauthorized', status=401)
+    blog.delete()
+    messages.success(request, 'Blog successfully deleted')
+    return redirect(reverse('index'))
 
 def render_markdown(request):
     md = request.POST.get('md', '')

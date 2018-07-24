@@ -11,7 +11,16 @@
                     {{ blog.title }}
 
                     {% if user.id == blog.user.id %}
-                    <div class="float-right"><a href="{% url 'edit_blog' blog.id %}" class='btn btn-success'>Edit</a></div>
+                    <!--div class="float-right"><a href="{% url 'edit_blog' blog.id %}" class='btn btn-success'>Edit</a></div-->
+                    <div class="dropdown float-right">
+                        <button class="btn btn-light circle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item edit" href="{% url 'edit_blog' blog.id %}" class='btn btn-success'>Edit</a>
+                            <a class="dropdown-item delete" href="{% url 'delete_blog' blog.id %}">Delete</a>
+                        </div>
+                    </div>
                     {% endif %}
                 </h1>
                 <h6 class="text-muted float-right"><em>{{ blog.created_at | naturaltime }}</em></h6>
@@ -85,6 +94,27 @@
     </style>
 {% endblock %}
 {% block script %}
+    <style>
+        .circle {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 3rem;
+        }
+
+        .circle > i {
+            margin-left: -0.2rem;
+        }
+
+        .edit:hover {
+            background-color: #66BB6A;
+            color: white;
+        }
+
+        .delete:hover {
+            background-color: #ef5350;
+            color: white;
+        }
+    </style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
