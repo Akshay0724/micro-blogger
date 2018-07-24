@@ -1,13 +1,13 @@
 {% extends "blogs/layout.html" %}
 {% load bootstrap_tags %}
-{% block title %}Create Blog | MicroBlogger{% endblock %}
+{% block title %}{% if edit %}Edit{% else %}Create{% endif %} Blog | MicroBlogger{% endblock %}
 
 {% block content %}
     <div class="container">
-        <h2 class="mt-4">Create Blog</h2>
+        <h2 class="mt-4">{% if edit %}Edit{% else %}Create{% endif %} Blog</h2>
         <div class="row mb-4">
             <div class="col">
-                <form action="{% url 'create_blog' %}" method="post">
+                <form action="{% if edit %}{% url 'edit_blog' form.instance.id %}{% else %}{% url 'create_blog' %}{% endif %}" method="post">
                     {% csrf_token %}
 
                     {{ form|as_bootstrap }}
@@ -16,7 +16,7 @@
                       <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                     </div>
                     <button id="preview" class="btn btn-secondary" type="button">Preview</button>
-                    <input class="btn btn-primary" type="submit" value="Create">
+                    <input class="btn btn-primary" type="submit" value="{% if edit %}Edit{% else %}Create{% endif %}">
                 </form>
             </div>
         </div>
@@ -62,16 +62,18 @@
                 };
 
                 showProgress(true);
-                $.post('api/markdown', data, function (response) {
+                $.post('/api/markdown', data, function (response) {
                     showProgress(false);
                     modal.modal();
                     modal.find('.blog').html(response);
                 });
             });
 
-            const mde = new SimpleMDE({ element: editor[0] });
-            $('.CodeMirror').find('textarea').attr('required', true)
-            editor.attr('required', false);
+            const mde = new SimpleMDE({ element: editor[0]});
+            if (mde.value() === '') {
+                $('.CodeMirror').find('textarea').attr('required', true)
+                editor.attr('required', false);
+            }
         }());
     </script>
 {% endblock %}

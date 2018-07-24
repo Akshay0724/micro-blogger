@@ -9,4 +9,5 @@ urlpatterns = [
     path('blogs/<int:blog_id>', views.blog_detail, name='post_detail'),
     path('api/markdown', views.render_markdown, name='render_markdown'),
     path('blogs/<int:blog_id>/comment', views.create_comment, name='create_comment'),
+    path('blogs/<int:blog_id>/edit', views.edit_blog, name='edit_blog'),
 ]
