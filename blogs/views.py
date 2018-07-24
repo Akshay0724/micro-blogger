@@ -66,8 +66,8 @@ def edit_blog(request, blog_id):
         form = forms.BlogForm(request.POST)
 
         if form.is_valid():
-            blog = form.save(commit=False)
-            blog.user = request.user
+            blog.title = form.cleaned_data['title']
+            blog.content = form.cleaned_data['content']
             blog.save()
             messages.success(request, 'Blog successfully updated')
             return redirect('post_detail', blog_id=blog.id)

@@ -25,7 +25,14 @@
             {% for blog in blogs %}
                 <div class="col-md-6 col-lg-4 d-flex mb-4">
                     <div class="card card-body d-flex flex-column">
-                        <h5 class="card-title">{{ blog.title }}</h5>
+                        <h5 class="card-title">{{ blog.title }}
+                            <span class="float-right hidden-panel invisible">
+                                {% if blog.user.id == user.id %}
+                                <a href="{% url 'edit_blog' blog.id %}" data-toggle="tooltip" title="Edit"><i class="material-icons edit" >edit</i></a>
+                                <a href="#" data-target-url="{% url 'delete_blog' blog.id %}" data-toggle="modal" data-target="#deleteModal"><i data-toggle="tooltip" title="Delete" class="material-icons delete">delete</i></a>
+                                {% endif %}
+                            </span>
+                        </h5>
                         <hr>
                         <div class="blog">{{ blog.content|truncatewords_html:"15"|markdown|safe }}</div>
                         <div class="mt-auto">
@@ -37,5 +44,64 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Blog</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the blog? This action is irreversible.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger delete-confirm">Delete</a>
+                </div>
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+
+{% block script %}
+    <style>
+        .edit, .delete {
+            font-size: 1.3rem;
+            background-color: #f5f5f5;
+            padding: .3rem;
+            border-radius: 1rem;
+            cursor: pointer;
+        }
+
+        .edit:hover, .delete:hover {
+            background-color: #eee;
+        }
+
+        .edit {
+            color: #66BB6A;
+        }
+
+        .delete {
+            color: #ef5350;
+        }
+    </style>
+    <script>
+        $('[data-toggle="tooltip"]').tooltip()
+        $('.card').on({
+            mouseenter: function () {
+                $(this).find('.hidden-panel').toggleClass('invisible');
+            },
+            mouseleave: function () {
+                $(this).find('.hidden-panel').toggleClass('invisible');
+            }
+        });
+
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            const recipient = $(event.relatedTarget).data('target-url');
+            $(this).find('.delete-confirm').attr('href', recipient);
+        });
+    </script>
 {% endblock %}
